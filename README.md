@@ -191,17 +191,26 @@ These are normalized to total power and shown in a bar chart.
 
 ---
 
-## config_channels.py Details
+## 🔧 Channel Configuration & Selection
 
-The config_channels.py module centralizes all channel-related configuration:
+The selection and naming of EEG channels are managed centrally in `src/modules/config_channels.py`. This allows you to adapt the viewer to different hardware layouts or electrode montages without changing the core code.
 
-CHANNEL_MAPPING: Dictionary mapping hardware channel indices to standard EEG electrode names (e.g., C3, FC4, T7, etc.)
+### 1. Hardware Channel Selection (`EXG_CHANNELS`)
+- The `EXG_CHANNELS` list defines which **hardware indices** the application reads from the board.
+- *Default:* `[1, 2, 5, 6, 9, 10, 13, 14, 26, 30]`.
+- To add or remove channels, simply modify this list.
 
-EXG_CHANNELS: List of hardware channel indices to be used as active EEG channels
+### 2. Channel Naming (`CHANNEL_MAPPING`)
+- The `CHANNEL_MAPPING` dictionary maps hardware indices to human-readable labels (e.g., `1: "T7"`).
+- If a channel index is in `EXG_CHANNELS` but missing from the mapping, it will be labeled generically (e.g., `CH26`).
 
-VIRTUAL_CHANNEL_NAME: Optional definition for virtual differential channels (e.g., "C3–C4" for C3 minus C4 differential)
+### 3. Virtual Differential Channel
+- A virtual channel (defined by `VIRTUAL_CHANNEL_NAME`, e.g., `"C3–C4"`) is automatically appended to the display.
+- This channel is calculated in real-time as the difference between specific physical channels (configured in `plot_manager.py`).
 
-This configuration file allows easy adaptation to different EEG headset layouts without modifying the core application code.
+### 4. Runtime Visibility
+- In the UI, the **"Channels ON/OFF"** panel allows you to toggle the visibility of individual channels during a session.
+- Unchecking a channel hides its trace and excludes it from PSD calculations.
 
 ## 📞 Support / Contributing
 
