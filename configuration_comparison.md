@@ -9,7 +9,7 @@ This document compares the channel mappings and electrode configurations between
 *   **Viewer Config:** `src/modules/config_channels.py` (EEGlslviewer)
     *   *Date Reference:* 13/11 configuration.
     *   *Purpose:* Real-time LSL stream mapping and display.
-*   **Analysis Config:** `config/montages/freg8.yaml` (EEGsuite)
+*   **Analysis Config:** `src/modules/freg8.yaml` (EEGsuite / EEGlslviewer)
     *   *Name:* FREG8
     *   *Purpose:* Standardized 8-channel 10-20 montage for signal processing and analysis.
 
@@ -58,7 +58,8 @@ The configurations both target a specific 8-channel subset of the FreeEEG32's 32
 
 ### Reference and Bias Notes
 *   **Viewer:** Specifically notes "linked ears" as the reference and "GND (FPZ|FZ)" as the VCM_BIAS for the current 13/11 session.
-*   **Analysis:** Assumes a "standard_1020" montage layout for coordinate mapping.
+*   **Analysis:** Now explicitly defines "linked ears" as the `reference` and "GND, between Fpz and Fz" as the `VCM_Bias`, ensuring full alignment with the acquisition setup.
+*   **Montage:** Both use "standard_1020" for coordinate mapping.
 
 ---
 

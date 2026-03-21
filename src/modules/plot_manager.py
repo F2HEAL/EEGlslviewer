@@ -50,7 +50,7 @@ def line_noise_ratio(freqs, psd, target_freq=50.0, tol=1.0):
 
 
 class PlotManager:
-    def __init__(self, ui, board_shim, filters, exg_channels, virtual_index, sampling_rate, main_widget):
+    def __init__(self, ui, board_shim, filters, exg_channels, virtual_index, sampling_rate, main_widget, channel_names=None, data_fetchers=None):
         self.ui = ui
         self.board_shim = board_shim
         self.filters = filters
@@ -58,6 +58,8 @@ class PlotManager:
         self.virtual_index = virtual_index
         self.sampling_rate = sampling_rate
         self.main_widget = main_widget
+        self.channel_names = channel_names
+        self.data_fetchers = data_fetchers
         self.psd_size = max(64, min(1024, 2 ** int(np.log2(sampling_rate))))
         self.num_points = int(sampling_rate * 4)
         self.pens_used = []  
@@ -82,10 +84,11 @@ class PlotManager:
         print("EXG channel list:", self.exg_channels)
 
         for i in range(len(self.exg_channels)):
-            #ch_name = "C3–C4" if i == self.virtual_index else CHANNEL_MAPPING.get(i + 1, f"CH{i + 1}")
-            channel_num = self.exg_channels[i]
-            #ch_name = "C3–C4" if i == self.virtual_index else CHANNEL_MAPPING.get(channel_num, f"CH{channel_num}")
-            ch_name = VIRTUAL_CHANNEL_NAME if i == self.virtual_index else CHANNEL_MAPPING.get(channel_num, f"CH{channel_num}")
+            if self.channel_names:
+                ch_name = self.channel_names[i]
+            else:
+                channel_num = self.exg_channels[i]
+                ch_name = VIRTUAL_CHANNEL_NAME if i == self.virtual_index else CHANNEL_MAPPING.get(channel_num, f"CH{channel_num}")
 
 
             channel_widget = QWidget()
@@ -216,7 +219,11 @@ class PlotManager:
                 self.psd_curves[i].setData([], [])
                 continue
 
-            sig = data[self.exg_channels[i]] if i != self.virtual_index else data[self.exg_channels[2]] - data[self.exg_channels[3]]
+            if self.data_fetchers and self.data_fetchers[i]:
+                sig = self.data_fetchers[i](data)
+            else:
+                sig = data[self.exg_channels[i]] if i != self.virtual_index else data[self.exg_channels[2]] - data[self.exg_channels[3]]
+            
             sig = self.filters.apply_filters(sig, i)
             self.curves[i].setData(sig.tolist())
 

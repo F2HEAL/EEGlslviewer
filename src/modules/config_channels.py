@@ -24,7 +24,8 @@ Configuration for EEG channel mapping and layout.
 # # REFERENCE = REF (CZ|CPZ)
 # # VCM_BIAS = GND (FPZ|FZ)
 
-#FG_P 13/11
+#FREG8#
+# FG_P 13/11
 # EEGCAP = Tenocom 32ch
 CHANNEL_MAPPING = {1: "T7", 2: "C3", 5: "T8", 6: "FC4", 9: "FC3", 10: "C4", 13: "CP3", 14: "CP4", 26: "x26", 30: "x30"} # FG_P 06/11
 # Active EEG channels to use (hardware indices)

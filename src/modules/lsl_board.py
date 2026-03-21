@@ -120,5 +120,5 @@ class LSLBoard:
 
     @staticmethod
     def get_exg_channels(board_id):
-        # Return a default range that covers what the viewer expects
-        return list(range(1, 31))
+        # Return a range that covers most possible channels (e.g., 1 to 64)
+        return list(range(1, 65))
