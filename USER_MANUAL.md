@@ -23,16 +23,16 @@ pip install brainflow PyQt5 pyqtgraph numpy scipy PyYAML
 
 There are two main entry points for the viewer:
 
-### A. Standard Viewer (Legacy/Fixed Config)
+### A. Montage config.YAML-Based Viewer (Recommended)
+Uses YAML montage files (e.g.,`freg9.yaml`) for flexible channel mapping and virtual channel calculations.
+
+```powershell
+python src\analysis\realtime\EEGlslviewer\src\eeg_viewer_main_yaml.py --config config\montages\freg9.yaml [options]
+```
+### B. Standard Viewer (Legacy/Fixed Config) [obsolete]
 Uses `src/modules/config_channels.py` for channel mapping.
 ```powershell
-python src/eeg_viewer_main.py [options]
-```
-
-### B. YAML-Based Viewer (Recommended)
-Uses YAML montage files (e.g., `freg9.yaml`) for flexible channel mapping and virtual channel calculations.
-```powershell
-python src/eeg_viewer_main_yaml.py --config src/modules/freg9.yaml [options]
+python src\analysis\realtime\EEGlslviewer\src\eeg_viewer_main.py
 ```
 
 ### Command Line Options
